@@ -6,7 +6,7 @@ function App() {
 
   return (
     <div>
-      <h1>My Calculator</h1>
+      <h1>My Calculator:</h1>
       <p>{display}</p>
       <button onClick={()=>setDisplay(display+"1")}>1</button>
       <button onClick={()=>setDisplay(display+"2")}>2</button>
