@@ -3,10 +3,17 @@ import './App.css'
 
 function App() {
   const [display, setDisplay] = useState("0")
-
+const handleNumber=(num)=>{
+  if(num=="0"){
+    setDisplay(num)
+  }
+  else{
+    setDisplay(display+num)
+  }
+}
   return (
     <div>
-      <h1>My Calculator </h1>
+      <h1>Calculator</h1>
       <p>{display}</p>
       <button onClick={()=>setDisplay(display+"1")}>1</button>
       <button onClick={()=>setDisplay(display+"2")}>2</button>
