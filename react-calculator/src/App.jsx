@@ -7,7 +7,7 @@ const handleNumber = (num) => {
   if (display === "0") {
     setDisplay(num)
   } else {
-    setDisplay(display +num)
+    setDisplay(display + num)
   }
 }
   return (
