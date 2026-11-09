@@ -10,6 +10,12 @@ const handleNumber = (num) => {
     setDisplay(display + num)
   }
 }
+const handleClear=()=>setDisplay("0");
+const handleDecimal=()=>{
+  if(!display.includes(".")){
+setDisplay(display+".")
+  }
+}
   return (
     <div>
       <h1>Calculator</h1>
@@ -24,7 +30,8 @@ const handleNumber = (num) => {
     <button onClick={()=>handleNumber("8")}>8</button>
     <button onClick={()=>handleNumber("9")}>9</button>
     <button onClick={()=>handleNumber("0")}>0</button>
-    <button onClick={()=>handleNumber("0")}>Clear</button>
+    <button onClick={handleClear}>Clear</button>
+    <button onClick={handleDecimal}>.</button>
     </div>
     
   )
