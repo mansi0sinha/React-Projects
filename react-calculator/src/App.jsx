@@ -20,6 +20,9 @@ function App() {
     if (display.length == 1) { setDisplay("0") }
     else { setDisplay(display.slice(0, -1)) }
   }
+   const handleAdd=()=>{
+    
+   }
   return (
     <div>
       <h1>Calculator</h1>
@@ -38,6 +41,19 @@ function App() {
       <button onClick={handleDecimal}>.</button>
       <button onClick={handleDelete}>
         ⌫
+      </button>
+
+      <button onClick={handleAdd}>+
+      </button>
+      <button onClick={handleSub}>-
+      </button>
+      <button onClick={handleMul}>*
+      </button>
+      <button onClick={handleDiv}>/
+      </button>
+      <button onClick={handleRem}>%
+      </button>
+      <button onClick={handlePow}>^
       </button>
     </div>
 
