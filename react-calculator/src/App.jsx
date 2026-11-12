@@ -6,18 +6,18 @@ function App() {
   const [firstNumber, setFirstNumber] = useState(null)
   const [operator, setOperator] = useState(null)
   const [startNewNumber, setStartNewNumber] = useState(false)
- const handleNumber = (num) => {
-  if (startNewNumber) {
-    setDisplay(num)
-    setStartNewNumber(false)
+  const handleNumber = (num) => {
+    if (startNewNumber) {
+      setDisplay(num)
+      setStartNewNumber(false)
+    }
+    else if (display === "0") {
+      setDisplay(num)
+    }
+    else {
+      setDisplay(display + num)
+    }
   }
-  else if (display === "0") {
-    setDisplay( num )
-  }
-  else {
-    setDisplay(display + num)
-  }
-}
   const handleClear = () => setDisplay("0");
   const handleDecimal = () => {
     if (!display.includes(".")) {
@@ -31,11 +31,13 @@ function App() {
   const handleAdd = () => {
     setFirstNumber(Number(display))
     setOperator("+")
-   setStartNewNumber(true)
+    setStartNewNumber(true)
 
   }
   const handleSub = () => {
-
+    setFirstNumber(Number(display))
+    setOperator("-")
+    setStartNewNumber(true)
   }
   const handleMul = () => {
 
@@ -52,6 +54,21 @@ function App() {
   const handleEqual = () => {
     if (operator == "+") {
       setDisplay(firstNumber + Number(display))
+    }
+    else if (operator == "-") {
+      setDisplay(firstNumber - Number(display))
+    }
+    else if (operator == "*") {
+      setDisplay(firstNumber * Number(display))
+    }
+    else if (operator == "/") {
+      setDisplay(firstNumber / Number(display))
+    }
+    else if(operator=="%"){
+      setDisplay(firstNumber%Number(display))
+    }
+    else if(operator=="^"){
+      setDisplay(firstNumber^Number(display))
     }
   }
   return (
