@@ -7,7 +7,7 @@ function App() {
   const [operator, setOperator] = useState(null)
   const [startNewNumber, setStartNewNumber] = useState(false)
 
-  const handleNumber = (num) => {
+  const handleNumber = ( num ) => {
     if (startNewNumber) {
       setDisplay(num)
       setStartNewNumber(false)
