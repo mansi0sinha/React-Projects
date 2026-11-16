@@ -12,7 +12,7 @@ function App() {
       setDisplay( num )
       setStartNewNumber(false)
     }
-    else if (display === "0") {
+    else if (display ===   "0") {
       setDisplay( num )
     }
     else {
