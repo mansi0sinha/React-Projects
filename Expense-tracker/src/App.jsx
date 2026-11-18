@@ -7,42 +7,54 @@ import Transaction from './components/Transaction'
 function App() {
   const [income, setIncome] = useState(0)
   const [expense, setExpense] = useState(0)
-  const [amount, setAmount] = useState("")
-  const [expenseAmount, setExpenseAmount] = useState("")
   const [transactions, setTransactions] = useState([])
-  const handleDelete=(id)=>{
+  const [transactionTitle, setTransactionTitle] = useState("")
+  const [transactionAmount, setTransactionAmount] = useState("")
+  const [transactionType, setTransactionType] = useState("expense")
+  const handleDelete = (id) => {
+    const transactionDelete = transactions.find((transaction) => transaction.id === id)
+    if (!transactionDelete) return
+    if (transactionDelete.type === "income") {
 
+      setIncome((income) => income - Number(transactionDelete.amount))
+    } else {
+      setExpense((expense) => expense - Number(transactionDelete.amount))
+    }
+    setTransactions(transactions.filter((transaction) => transaction.id !== id))
   }
   return (
     <>
       <div className="app">
         <Header />
         <Summary income={income} expense={expense} />
+        <input type='text' value={transactionTitle} onChange={(e) => setTransactionTitle(e.target.value)} placeholder='Title' />
+        <input type='number' value={transactionAmount} onChange={(e) => setTransactionAmount(e.target.value)} placeholder='Amount' />
+        <select value={transactionType} onChange={(e) => setTransactionType(e.target.value)}>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+        <button onClick={() => {
+          if (transactionTitle.trim() !== "" && Number(transactionAmount) > 0) {
+            setTransactions((transactions) => [...transactions, ({
+              id: Date.now(),
+              title: transactionTitle,
+              amount: Number(transactionAmount),
+              type: transactionType
+            })])
+            if (transactionType === "income") {
+              setIncome((income) => income + Number(transactionAmount))
+            }
+            else {
+              setExpense((expense) => expense + Number(transactionAmount))
+            }
+            setTransactionTitle("")
+            setTransactionAmount("")
+          }
 
-        <input type='number' placeholder='Enter income' value={amount} onChange={(e) => setAmount(e.target.value)} />
-        <button onClick={() => {
-          if (Number(amount) > 0) {
-            setIncome((income) => income + Number(amount))
-            setAmount("")
-          }
-        }}
-        >Add Income</button>
-        <input type='number' placeholder='Enter expense' value={expenseAmount} onChange={(e) => setExpenseAmount(e.target.value)} />
-        <button onClick={() => {
-          if (Number(expenseAmount) > 0) {
-            setExpense((expense) => expense + Number(expenseAmount))
-            setExpenseAmount("")
-          }
-        }}>
-          Add Expense
-        </button>
-        <button onClick={() => setTransactions((transactions) => [...transactions,({
-          id: Date.now(),
-          title: "Groceries",
-          amount: 1500,
-          type: "expense"
-        })])}>Add sample transaction</button>
-        <Transaction transactions={transactions} />
+
+        }}>Add sample transaction</button>
+        <Transaction transactions={transactions} onDelete={handleDelete}
+        />
       </div >
     </>
   )
