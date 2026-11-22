@@ -13,7 +13,7 @@ function App() {
   const [transactionType, setTransactionType] = useState("expense")
   const handleDelete = (id) => {
     const transactionDelete = transactions.find((transaction) => transaction.id === id)
-    if (!transactionDelete) return
+    if ( !transactionDelete ) return
     if (transactionDelete.type === "income") {
 
       setIncome((income) => income - Number(transactionDelete.amount))
