@@ -11,9 +11,17 @@ function App() {
   const [transactionTitle, setTransactionTitle] = useState("")
   const [transactionAmount, setTransactionAmount] = useState("")
   const [transactionType, setTransactionType] = useState("expense")
+  const [editingId, setEditingId] = useState(null)
+  const handleEdit = (id) => {
+    const transactionEdit = transactions.find((transaction) => transaction.id === id)
+    setEditingId(transactionEdit.id)
+    setTransactionTitle(transactionEdit.title)
+    setTransactionAmount(String(transactionEdit.amount))
+    setTransactionType(transactionEdit.type)
+  }
   const handleDelete = (id) => {
     const transactionDelete = transactions.find((transaction) => transaction.id === id)
-    if ( !transactionDelete ) return
+    if (!transactionDelete) return
     if (transactionDelete.type === "income") {
 
       setIncome((income) => income - Number(transactionDelete.amount))
@@ -35,25 +43,46 @@ function App() {
         </select>
         <button onClick={() => {
           if (transactionTitle.trim() !== "" && Number(transactionAmount) > 0) {
-            setTransactions((transactions) => [...transactions, ({
-              id: Date.now(),
-              title: transactionTitle,
-              amount: Number(transactionAmount),
-              type: transactionType
-            })])
-            if (transactionType === "income") {
-              setIncome((income) => income + Number(transactionAmount))
+            if (editingId == null) {
+              setTransactions((transactions) => [...transactions, ({
+                id: Date.now(),
+                title: transactionTitle,
+                amount: Number(transactionAmount),
+                type: transactionType
+              })])
+              if (transactionType === "income") {
+                setIncome((income) => income + Number(transactionAmount))
+              }
+              else {
+                setExpense((expense) => expense + Number(transactionAmount))
+              }
             }
             else {
-              setExpense((expense) => expense + Number(transactionAmount))
+              setTransactions((transactions) =>
+                transactions.map((transaction) => {
+                  if (transaction.id == editingId) {
+                    return {
+                      ...transaction,
+                      title: transactionTitle,
+                      amount: Number(transactionAmount),
+                      type: transactionType
+                    }
+                  }
+                  else {
+                    return transaction
+                  }
+                }
+                )
+              )
             }
+
             setTransactionTitle("")
             setTransactionAmount("")
           }
 
 
         }}>Add sample transaction</button>
-        <Transaction transactions={transactions} onDelete={handleDelete}
+        <Transaction transactions={transactions} onDelete={handleDelete} onEdit={handleEdit}
         />
       </div >
     </>
