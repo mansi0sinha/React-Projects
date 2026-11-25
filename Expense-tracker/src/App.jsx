@@ -18,6 +18,7 @@ function App() {
     setTransactionTitle(transactionEdit.title)
     setTransactionAmount(String(transactionEdit.amount))
     setTransactionType(transactionEdit.type)
+
   }
   const handleDelete = (id) => {
     const transactionDelete = transactions.find((transaction) => transaction.id === id)
@@ -58,9 +59,21 @@ function App() {
               }
             }
             else {
+               const oldTransaction = transactions.find((transaction) =>
+                      transaction.id === editingId)
+                    if (oldTransaction.type === "expense") {
+                      setExpense((expense) => expense - oldTransaction.amount)
+                    } else {
+                      setIncome((income) => income - oldTransaction.amount)
+                    }
+                    if (transactionType === "income") {
+                      setIncome((income) => income + Number(transactionAmount))
+                    } else {
+                      setExpense((expense) => expense + Number(transactionAmount))
+                    }
               setTransactions((transactions) =>
                 transactions.map((transaction) => {
-                  if (transaction.id == editingId) {
+                  if (transaction.id === editingId) {
                     return {
                       ...transaction,
                       title: transactionTitle,
@@ -69,19 +82,21 @@ function App() {
                     }
                   }
                   else {
+                   
                     return transaction
                   }
                 }
                 )
               )
             }
-
             setTransactionTitle("")
             setTransactionAmount("")
+            setEditingId(null)
           }
 
 
-        }}>Add sample transaction</button>
+        }}>
+          {editingId === null ? "Add Transaction" : "Update Transaction"}</button>
         <Transaction transactions={transactions} onDelete={handleDelete} onEdit={handleEdit}
         />
       </div >
